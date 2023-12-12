@@ -1,5 +1,3 @@
-import 'dart:ui_web';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/models/weather_model.dart';
@@ -16,9 +14,6 @@ class _WeatherPageState extends State<WeatherPage> {
   // Apikey
   final _weatherService = WeatherService('b86a00400a133db51e7e30e962123b3b');
   Weather? _weather;
-  getWeather() {
-    return _weather?.cityName;
-  }
 
   // Fetch weather
   _fetchWeather() async {
@@ -37,7 +32,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
   // weather animations
   String getWeatherAnimation(String? mainCondition) {
-    if (mainCondition == null) return 'assets/sunny.json';
+    if (mainCondition == null) return 'assets/weather_like.json';
 
     switch (mainCondition.toLowerCase()) {
       case 'clouds':
@@ -46,17 +41,18 @@ class _WeatherPageState extends State<WeatherPage> {
       case 'haze':
       case 'dust':
       case 'fog':
-        return 'assets/sunny.json';
+        return 'assets/cloudy.json';
       case 'rain':
       case 'drizzle':
       case 'shower rain':
-        return 'assets/sunny.json';
       case 'thunderstorm':
-        return 'assets/sunny.json';
+        return 'assets/weather_like.json';
       case 'clear':
         return 'assets/sunny.json';
+      case 'snow':
+        return 'snowy.json';
       default:
-        return 'assets/sunny.json';
+        return 'assets/weather_like.json';
     }
   }
 
@@ -71,22 +67,62 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    double widthSize = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //city name
-            //Text(_weather?.cityName ?? "Loading city..."),
+            Container(
+              padding: EdgeInsets.all(widthSize * 0.1),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    size: widthSize * 0.1,
+                  ),
+                  Text(
+                    _weather?.cityName ?? "Loading city...",
+                    style: TextStyle(
+                      fontSize: widthSize * 0.1,
+                      //fontFamily: 'BebasNeue'
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             // animation
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+
+            Container(
+              padding: EdgeInsets.all(widthSize * 0.1),
+              child: Column(
+                children: [
+                  Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+                ],
+              ),
+            ),
 
             //temperature
-            Text(/*${_weather?.temperature.round()}*/ '°C'),
+            Container(
+              padding: EdgeInsets.all(widthSize * 0.1),
+              child: Column(
+                children: [
+                  Text(
+                    '${_weather?.temperature.round()}°C',
+                    style: TextStyle(fontSize: widthSize * 0.1),
+                  ),
 
-            //weather condition
-            Text(_weather?.mainCondition ?? ""),
+                  //weather condition
+                  Text(
+                    _weather?.mainCondition ?? "",
+                    style: TextStyle(fontSize: widthSize * 0.05),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
