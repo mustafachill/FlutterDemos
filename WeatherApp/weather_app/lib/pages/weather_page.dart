@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
+
+const myTextStyle = GoogleFonts.bebasNeue;
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
@@ -69,7 +72,7 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +88,7 @@ class _WeatherPageState extends State<WeatherPage> {
                   ),
                   Text(
                     _weather?.cityName ?? "Loading city...",
-                    style: TextStyle(
+                    style: myTextStyle(
                       fontSize: widthSize * 0.1,
                       //fontFamily: 'BebasNeue'
                     ),
@@ -112,13 +115,13 @@ class _WeatherPageState extends State<WeatherPage> {
                 children: [
                   Text(
                     '${_weather?.temperature.round()}°C',
-                    style: TextStyle(fontSize: widthSize * 0.1),
+                    style: myTextStyle(fontSize: widthSize * 0.1),
                   ),
 
                   //weather condition
                   Text(
                     _weather?.mainCondition ?? "",
-                    style: TextStyle(fontSize: widthSize * 0.05),
+                    style: myTextStyle(fontSize: widthSize * 0.05),
                   ),
                 ],
               ),
