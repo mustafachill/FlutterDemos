@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurant_app/components/button.dart';
-
-final color = Color.fromARGB(255, 175, 57, 36);
+import 'package:restaurant_app/themes/colors.dart';
+import 'package:restaurant_app/themes/fonts.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -10,7 +9,7 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: color,
+      backgroundColor: primaryColor,
       body: Padding(
         padding: EdgeInsets.all(25.0),
         child: Column(
@@ -29,8 +28,7 @@ class IntroPage extends StatelessWidget {
                 ),
                 Text(
                   "KEBAB MAN",
-                  style: GoogleFonts.dmSerifDisplay(
-                      fontSize: 40, color: Colors.white),
+                  style: primaryTextStyle(fontSize: 40, color: Colors.white),
                 ),
               ]),
             ),
@@ -43,8 +41,7 @@ class IntroPage extends StatelessWidget {
             //title
             Text(
               "THE TASTE OF TRADITIONAL TURKISH MEAT",
-              style:
-                  GoogleFonts.dmSerifDisplay(fontSize: 27, color: Colors.white),
+              style: primaryTextStyle(fontSize: 27, color: Colors.white),
             ),
             //subtitle
             const Text(

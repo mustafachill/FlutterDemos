@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-final color = Color.fromARGB(255, 177, 80, 63);
+import 'package:google_fonts/google_fonts.dart';
+import 'package:restaurant_app/themes/colors.dart';
+import 'package:restaurant_app/themes/fonts.dart';
 
 class MyButton extends StatelessWidget {
   final String text;
@@ -14,11 +15,13 @@ class MyButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(35)),
+            color: secondaryColor, borderRadius: BorderRadius.circular(35)),
         child: Row(children: [
           Text(
             text,
-            style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            style: secondaryTextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontWeight: FontWeight.w500),
           ),
           Padding(padding: EdgeInsets.only(right: 10)),
           Icon(
