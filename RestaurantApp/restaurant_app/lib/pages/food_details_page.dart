@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/components/button.dart';
 import 'package:restaurant_app/components/food_tile.dart';
+import 'package:restaurant_app/models/shop.dart';
 import 'package:restaurant_app/services/food_service.dart';
 import 'package:restaurant_app/themes/colors.dart';
 import 'package:restaurant_app/themes/fonts.dart';
@@ -18,7 +21,9 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
   // decrement quantity
   void decrementQuantity() {
     setState(() {
-      quantityCount--;
+      if (quantityCount > 0) {
+        quantityCount--;
+      }
     });
   }
 
@@ -29,14 +34,42 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
     });
   }
 
+  addToCart() {
+    if (quantityCount > 0) {
+      final shop = context.read<Shop>();
+      shop.addToCart(widget.food, quantityCount);
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          backgroundColor: primaryColor,
+          content: Text(
+            "Başarıyla sepete eklendi",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  // pop once to remove dialog box
+                  Navigator.pop(context);
+                  //pop again to go previous screen
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: Colors.grey[900],
-      ),
       body: Container(
           child: Column(
         children: [
@@ -104,6 +137,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                 children: [
                   // price & quantity
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // price
                       Text(
@@ -117,18 +151,61 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                       Row(
                         children: [
                           //minus button
-                          IconButton(
-                            icon: Icon(Icons.remove),
-                            onPressed: decrementQuantity,
-                          )
+                          Container(
+                            decoration: BoxDecoration(
+                              color: secondaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.remove,
+                                color: Colors.white,
+                              ),
+                              onPressed: decrementQuantity,
+                            ),
+                          ),
                           // quantity count
-
+                          SizedBox(
+                            height: 35,
+                            width: 35,
+                            child: Center(
+                              child: Text(
+                                quantityCount.toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                           // plus button
+                          Container(
+                            decoration: BoxDecoration(
+                              color: secondaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: increaseQuantity,
+                            ),
+                          ),
                         ],
                       )
                     ],
                   ),
+                  SizedBox(
+                    height: 25,
+                  ),
                   // add to cart button
+                  MyButton(
+                    text: 'Add to cart',
+                    onTap: () {
+                      addToCart();
+                    },
+                  )
                 ],
               ),
             ),
